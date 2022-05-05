@@ -50,12 +50,14 @@ class NominatimProvider extends GetConnect {
       );
 
   /// API call for the reverse geocoding with coordinates query.
-  Future<Response<dynamic>> reverseRequest(Coordinate coordinate) => get(
+  Future<Response<dynamic>> reverseRequest(Coordinate coordinate, [String? local]) => get(
         reversePath,
         query: {
           ...coordinate.toJson(),
           'format': 'json',
           'addressdetails': '1',
+          if (local != null)
+            'accept-language': local,
         },
       );
 }

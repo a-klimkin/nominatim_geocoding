@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:nominatim_geocoding/src/model/geocoding.dart';
 import 'package:nominatim_geocoding/src/nominatim_provider.dart';
@@ -28,6 +29,7 @@ class NominatimService {
         throw Exception('Server error');
       }
     } else {
+      debugPrint(response.body);
       Geocoding result = response.body;
       if (postalCode != 0 && result.address.postalCode == 0) {
         result = result.copyWith(
@@ -45,6 +47,6 @@ class NominatimService {
       await _provider.forwardRequest(address.requestStr), address.postalCode);
 
   /// Provider call for the reverse geocoding with [coordinate] instance of [Coordinate] query.
-  Future<Geocoding> reverseCoding(Coordinate coordinate) async =>
-      _responseMapping(await _provider.reverseRequest(coordinate));
+  Future<Geocoding> reverseCoding(Coordinate coordinate, [String? local]) async =>
+      _responseMapping(await _provider.reverseRequest(coordinate, local));
 }

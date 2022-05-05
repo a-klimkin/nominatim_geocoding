@@ -62,13 +62,13 @@ class NominatimGeocoding {
   }
 
   /// Reverse geocoding of the address with [coordinate].
-  Future<Geocoding> reverseGeoCoding(Coordinate coordinate) async {
+  Future<Geocoding> reverseGeoCoding(Coordinate coordinate, {String? local}) async {
     Geocoding? result = _storage.getCachedCoordinateData(coordinate);
     if (result != null) {
       return result;
     } else {
       if (_storage.isLastSentSafe()) {
-        result = await _service.reverseCoding(coordinate);
+        result = await _service.reverseCoding(coordinate, local);
         _storage.updateLastSent();
         _storage.updateCacheData(result);
         return result;
